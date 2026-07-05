@@ -1,0 +1,55 @@
+{
+  "manifest_version": 2,
+  "name": "History Filter",
+  "version": "1.0.0",
+  "description": "Removes matching sites from Firefox history as soon as they are visited.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "19": "icons/icon-19.png",
+    "32": "icons/icon-32.png",
+    "38": "icons/icon-38.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "history",
+    "storage"
+  ],
+  "background": {
+    "scripts": [
+      "matcher.js",
+      "settings.js",
+      "background.js"
+    ]
+  },
+  "browser_action": {
+    "default_title": "History Filter",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    },
+    "default_popup": "options.html"
+  },
+  "page_action": {
+    "default_title": "History Filter",
+    "default_icon": {
+      "19": "icons/page-on-19.png",
+      "38": "icons/page-on-38.png"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{8a1bbb52-41ca-4d64-969a-dd0814803435}",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  }
+}

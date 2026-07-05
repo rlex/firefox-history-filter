@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>History Filter</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>History Filter</h1>
+        <label class="switch">
+          <input id="enabled" type="checkbox">
+          <span class="switch-track" aria-hidden="true">
+            <span class="switch-thumb"></span>
+          </span>
+          <span id="enabled-label">On</span>
+        </label>
+      </header>
+
+      <section class="settings" aria-label="Settings">
+        <div class="setting-row">
+          <span class="setting-title">Sync settings</span>
+          <label class="switch">
+            <input id="sync-settings" type="checkbox">
+            <span class="switch-track" aria-hidden="true">
+              <span class="switch-thumb"></span>
+            </span>
+            <span id="sync-settings-label">Off</span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-title">Address bar icon</span>
+          <label class="switch">
+            <input id="address-bar" type="checkbox">
+            <span class="switch-track" aria-hidden="true">
+              <span class="switch-thumb"></span>
+            </span>
+            <span id="address-bar-label">Off</span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-title">Recent removals log</span>
+          <label class="switch">
+            <input id="recent-removals-enabled" type="checkbox">
+            <span class="switch-track" aria-hidden="true">
+              <span class="switch-thumb"></span>
+            </span>
+            <span id="recent-removals-enabled-label">Off</span>
+          </label>
+        </div>
+      </section>
+
+      <details id="current-site" class="current-site" hidden>
+        <summary>Current site</summary>
+        <div class="current-site-body">
+          <div id="current-site-host" class="current-site-host"></div>
+          <div class="current-site-actions">
+            <button id="filter-domain" type="button">Domain</button>
+            <button id="filter-subdomains" type="button">Deep subdomains</button>
+            <button id="filter-page" type="button">Page prefix</button>
+          </div>
+        </div>
+      </details>
+
+      <section class="editor">
+        <label for="rules">Filtered sites</label>
+        <div class="rules-editor">
+          <div id="rules-line-numbers" class="rules-line-numbers" aria-hidden="true">1</div>
+          <textarea id="rules" spellcheck="false" wrap="off"></textarea>
+        </div>
+        <div class="rules-actions">
+          <button id="save" type="button">Save</button>
+          <button id="check-rules" type="button">Check rules</button>
+          <button id="clean" type="button">Find matches</button>
+          <span id="status" role="status" aria-live="polite"></span>
+        </div>
+        <section id="rules-check" class="rules-check" aria-live="polite" hidden>
+          <strong id="rules-check-title"></strong>
+          <ul id="rules-check-list"></ul>
+        </section>
+        <section id="clean-preview" class="clean-preview" aria-live="polite" hidden>
+          <div>
+            <strong id="clean-preview-title"></strong>
+            <ul id="clean-preview-list"></ul>
+          </div>
+          <div class="clean-preview-actions">
+            <button id="confirm-clean" type="button">Remove matched history</button>
+            <button id="dismiss-clean-preview" type="button">Cancel</button>
+          </div>
+        </section>
+        <div id="rules-conflict" class="rules-conflict" hidden>
+          <span>Rules changed elsewhere.</span>
+          <div class="conflict-actions">
+            <button id="reload-rules" type="button">Reload</button>
+            <button id="keep-rules" type="button">Keep mine</button>
+          </div>
+        </div>
+        <div id="rules-validation" class="rules-validation" role="status" aria-live="polite"></div>
+        <div id="rules-size" class="rules-size" role="status" aria-live="polite"></div>
+        <details class="url-test">
+          <summary>Test URL</summary>
+          <div class="url-test-controls">
+            <input id="test-url" type="url" spellcheck="false" placeholder="https://example.com/private">
+            <button id="test-url-button" type="button">Test</button>
+          </div>
+          <div id="test-url-result" class="url-test-result" role="status" aria-live="polite"></div>
+        </details>
+      </section>
+
+      <details class="help">
+        <summary>Rule examples</summary>
+        <p><code>example.com</code> matches only that hostname.</p>
+        <p><code>@example.com</code> matches that hostname and all subdomains.</p>
+        <p><code>example.com:8080</code> matches only that port.</p>
+        <p><code>192.168.1.1</code> matches an IPv4 address.</p>
+        <p><code>[2001:db8::1]</code> matches an IPv6 address.</p>
+        <p><code>*.example.com</code> matches one subdomain level.</p>
+        <p><code>**.example.com</code> matches any subdomain depth.</p>
+        <p><code>https://example.com/private</code> matches that URL prefix.</p>
+        <p><code>*://*.example.com/*secret*</code> supports wildcards.</p>
+        <p><code>regex:^https://example\.com/(private|tmp)/</code> supports regex.</p>
+      </details>
+
+      <details id="recent-removals" class="recent-removals" hidden>
+        <summary>Recent removals</summary>
+        <div class="recent-removals-toolbar">
+          <span id="recent-removals-summary"></span>
+          <button id="clear-recent-removals" type="button">Clear</button>
+        </div>
+        <ol id="recent-removals-list"></ol>
+      </details>
+    </main>
+
+    <script src="matcher.js"></script>
+    <script src="settings.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

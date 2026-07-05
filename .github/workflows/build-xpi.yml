@@ -1,0 +1,97 @@
+name: Build XPI
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*.*.*"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install web-ext
+        run: npm install --global web-ext@10.4.0
+
+      - name: Validate manifest
+        run: python3 -m json.tool manifest.json > /dev/null
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check background.js
+          node --check matcher.js
+          node --check options.js
+          node --check settings.js
+          node --check scripts/render-icons.js
+
+      - name: Check Python script syntax
+        run: python3 -m py_compile scripts/build-xpi.py scripts/check-release-version.py
+
+      - name: Run tests
+        run: node matcher.test.js
+
+      - name: Lint extension
+        run: >
+          web-ext lint
+          --source-dir .
+          --warnings-as-errors
+          --ignore-files
+          README.md
+          PRIVACY.md
+          matcher.test.js
+          'scripts/**'
+          '.github/**'
+          'dist/**'
+          'web-ext-artifacts/**'
+          icons/history-filter.svg
+          icons/history-filter-source.png
+
+      - name: Regenerate icons
+        run: node scripts/render-icons.js
+
+      - name: Verify generated icons are current
+        run: git diff --exit-code -- icons
+
+      - name: Build unsigned XPI
+        run: python3 scripts/build-xpi.py
+
+      - name: Check release version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: python3 scripts/check-release-version.py "${GITHUB_REF_NAME}"
+
+      - name: Verify release tag is on master
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          git fetch --no-tags origin +refs/heads/master:refs/remotes/origin/master
+          tag_commit="$(git rev-list -n 1 "${GITHUB_REF_NAME}")"
+          git merge-base --is-ancestor "${tag_commit}" origin/master
+
+      - name: Upload unsigned XPI
+        uses: actions/upload-artifact@v4
+        with:
+          name: history-filter-unsigned-xpi
+          path: dist/history-filter-unsigned.xpi
+          if-no-files-found: error
+
+      - name: Upload XPI to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/history-filter-unsigned.xpi

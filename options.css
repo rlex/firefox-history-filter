@@ -1,0 +1,434 @@
+:root {
+  color-scheme: light dark;
+  font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-width: 360px;
+  color: CanvasText;
+  background: Canvas;
+}
+
+main {
+  box-sizing: border-box;
+  width: min(720px, 100vw);
+  padding: 16px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.settings {
+  margin-bottom: 14px;
+  padding-block: 10px;
+  border-block: 1px solid color-mix(in srgb, CanvasText 14%, Canvas);
+  display: grid;
+  gap: 10px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.setting-title {
+  font-weight: 650;
+}
+
+.current-site {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, Canvas);
+}
+
+.current-site[hidden] {
+  display: none;
+}
+
+.current-site summary {
+  cursor: pointer;
+  font-weight: 650;
+  list-style: none;
+}
+
+.current-site summary::-webkit-details-marker {
+  display: none;
+}
+
+.current-site-body {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.current-site-host {
+  overflow: hidden;
+  color: color-mix(in srgb, CanvasText 70%, Canvas);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.current-site-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 72px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.switch input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.switch-track {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: color-mix(in srgb, CanvasText 28%, Canvas);
+  transition: background-color 160ms ease;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: Canvas;
+  box-shadow: 0 1px 3px color-mix(in srgb, CanvasText 35%, transparent);
+  transition: transform 160ms ease;
+}
+
+.switch input:checked + .switch-track {
+  background: #0b948f;
+}
+
+.switch input:checked + .switch-track .switch-thumb {
+  transform: translateX(18px);
+}
+
+.switch input:focus-visible + .switch-track {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.editor {
+  display: grid;
+  gap: 8px;
+}
+
+.editor label {
+  font-weight: 650;
+}
+
+.rules-editor {
+  display: grid;
+  grid-template-columns: minmax(34px, max-content) minmax(0, 1fr);
+  min-height: 154px;
+  border: 1px solid color-mix(in srgb, CanvasText 25%, Canvas);
+  border-radius: 6px;
+  background: Canvas;
+}
+
+.rules-line-numbers {
+  box-sizing: border-box;
+  min-width: 34px;
+  padding: 10px 8px;
+  border-right: 1px solid color-mix(in srgb, CanvasText 12%, Canvas);
+  color: color-mix(in srgb, CanvasText 45%, Canvas);
+  background: color-mix(in srgb, CanvasText 4%, Canvas);
+  font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow: hidden;
+  text-align: right;
+  user-select: none;
+  white-space: pre;
+}
+
+.rules-editor:focus-within {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+
+.rules-editor textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 154px;
+  resize: vertical;
+  padding: 10px;
+  border: 0;
+  outline: 0;
+  font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: CanvasText;
+  background: Canvas;
+}
+
+.rules-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.rules-conflict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 34px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, #9a5b00 50%, Canvas);
+  border-radius: 6px;
+  color: CanvasText;
+  background: color-mix(in srgb, #9a5b00 12%, Canvas);
+  font-size: 12px;
+}
+
+.rules-conflict[hidden] {
+  display: none;
+}
+
+.conflict-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.conflict-actions button {
+  min-height: 28px;
+}
+
+.rules-validation {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.rules-validation:empty {
+  display: none;
+}
+
+.rules-validation p {
+  margin: 0;
+}
+
+.rules-validation .error {
+  color: #b00020;
+  font-weight: 650;
+}
+
+.rules-validation .warning {
+  color: #9a5b00;
+}
+
+.rules-size {
+  color: color-mix(in srgb, CanvasText 65%, Canvas);
+  font-size: 12px;
+}
+
+.rules-size:empty {
+  display: none;
+}
+
+.rules-size.warning {
+  color: #9a5b00;
+}
+
+.rules-size.error {
+  color: #b00020;
+  font-weight: 650;
+}
+
+.url-test {
+  padding-top: 0;
+}
+
+.url-test-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.url-test input {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, CanvasText 25%, Canvas);
+  border-radius: 6px;
+  color: CanvasText;
+  background: Canvas;
+}
+
+.url-test-result {
+  min-height: 18px;
+  color: color-mix(in srgb, CanvasText 70%, Canvas);
+  font-size: 12px;
+}
+
+.url-test-result.match {
+  color: #0b6b40;
+}
+
+.url-test-result.error {
+  color: #b00020;
+  font-weight: 650;
+}
+
+.help {
+  margin: 12px 0;
+  color: color-mix(in srgb, CanvasText 75%, Canvas);
+}
+
+.url-test summary,
+.help summary,
+.recent-removals summary {
+  color: color-mix(in srgb, CanvasText 75%, Canvas);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.help p {
+  margin: 4px 0;
+}
+
+.help summary + p {
+  margin-top: 8px;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.clean-preview,
+.rules-check {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, #9a5b00 40%, Canvas);
+  border-radius: 6px;
+  background: color-mix(in srgb, #9a5b00 8%, Canvas);
+}
+
+.clean-preview[hidden],
+.rules-check[hidden] {
+  display: none;
+}
+
+.clean-preview strong,
+.rules-check strong {
+  display: block;
+  font-size: 13px;
+}
+
+.clean-preview ul,
+.rules-check ul {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: color-mix(in srgb, CanvasText 78%, Canvas);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.rules-check.ok {
+  border-color: color-mix(in srgb, #0b948f 45%, Canvas);
+  background: color-mix(in srgb, #0b948f 8%, Canvas);
+}
+
+.clean-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.recent-removals {
+  margin-top: 12px;
+  color: color-mix(in srgb, CanvasText 75%, Canvas);
+}
+
+.recent-removals[hidden] {
+  display: none;
+}
+
+.recent-removals-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  min-height: 32px;
+  font-size: 12px;
+}
+
+.recent-removals ol {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.recent-removals li {
+  overflow-wrap: anywhere;
+}
+
+.recent-removals-time,
+.recent-removals-rule {
+  display: block;
+  color: color-mix(in srgb, CanvasText 62%, Canvas);
+}
+
+.recent-removals-url {
+  display: block;
+  color: CanvasText;
+}
+
+button {
+  min-height: 32px;
+}
+
+#save {
+  font-weight: 650;
+}
+
+#status {
+  flex: 1 1 180px;
+  min-height: 20px;
+  color: color-mix(in srgb, CanvasText 75%, Canvas);
+  white-space: nowrap;
+}
