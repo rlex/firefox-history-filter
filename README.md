@@ -7,6 +7,10 @@ Firefox WebExtensions do not provide a pre-history-write filter hook. This
 extension listens to `browser.history.onVisited` and immediately calls
 `browser.history.deleteUrl()` for matching URLs.
 
+## Screenshot
+
+![screenshot](/screenshots/ui.png?raw=true)
+
 ## Rule syntax
 
 Add one rule per line:
