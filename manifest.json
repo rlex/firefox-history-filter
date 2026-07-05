@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "History Filter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Removes matching sites from Firefox history as soon as they are visited.",
   "icons": {
     "16": "icons/icon-16.png",
